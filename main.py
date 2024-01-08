@@ -1,49 +1,50 @@
 import hash_table_class
+import package_class
 import csv
 
+# "Package ID",Address,City,State,Zip,"Delivery Deadline","Weight KILO","Special Notes",
+    
+# TODO: Use this to get csv data loaded into hash table?
+def loadPackageData(fileName):
+    with open(fileName, newline='') as packageDataCSV:
+        packageData = csv.reader(packageDataCSV, delimiter=',')
+        next(packageData)  # this skips the header
+        for packageInfo in packageData:
+            packageID = int(packageInfo[0])
+            packageAddress = packageInfo[1]
+            packageCity = packageInfo[2]
+            packageState = packageInfo[3]
+            packageZIP = packageInfo[4]
+            packageDeadline = packageInfo[5]
+            packageWeight = packageInfo[6]
+            packageStatus = "at hub"
+
+            # movie object
+            newPackage = package_class.Package(
+                packageID,
+                packageAddress,
+                packageCity,
+                packageState,
+                packageZIP,
+                packageDeadline,
+                packageWeight,
+                packageStatus
+            )
+            # print(m)
+
+            # insert it into the hash table
+            packageHashTable.insert(packageID, newPackage)
 
 
-bestMovies = [
-    [1, "CITIZEN KANE - 1941"],
-    [2, "CASABLANCA - 1942"],
-    [3, "THE GODFATHER - 1972"],
-    [4, "GONE WITH THE WIND - 1939"],
-    [5, "LAWRENCE OF ARABIA - 1962"],
-    [6, "THE WIZARD OF OZ - 1939"],
-    [7, "THE GRADUATE - 1967"],
-    [8, "ON THE WATERFRONT- 1954"],
-    [9, "SCHINDLER'S LIST -1993"],
-    [10, "SINGIN' IN THE RAIN - 1952"],
-    [11, "STAR WARS - 1977"]
-]
+packageHashTable = hash_table_class.ChainingHashTable()
 
-myHash = hash_table_class.ChainingHashTable()
+loadPackageData("WGUPS_package_file.csv")
 
-print("\nInsert:")
-for movie in bestMovies:
-    movie_id, movie_title = movie[0], movie[1]
-    myHash.insert(movie_id, movie_title)
+print(packageHashTable.table.)
 
-print(myHash.table)
-
-print("\nSearch:")
-print(myHash.search(1))  # Key=1, item="CITIZEN KANE - 1941"
-print(myHash.search(11))  # Key=11, item="STAR WARS - 1977"; so same bucket and Chainin is working
-
-print("\nUpdate:")
-myHash.insert(1, "Star Trek - 1979")  # 2nd bucket; Key=1, item="Star Trek - 1979"
-print(myHash.table)
-
-print("\nRemove:")
-myHash.remove(1)  # Key=1, item="Star Trek - 1979" to remove
-print(myHash.table)
-
-myHash.remove(11)  # Key=11, item="STAR WARS - 1977" to remove
-print(myHash.table)
-
-myHash.remove(10)  # Key=11, item="STAR WARS - 1977" to remove
-print(myHash.table)
-
-print("\nUpdate:")
-myHash.insert(10, "Space Balls - 1983")  # 2nd bucket; Key=1, item="Star Trek - 1979"
-print(myHash.table)
+'''
+print("Package Data from Hashtable:")
+# Fetch data from Hash Table
+for i in range(len(packageHashTable)+1):
+    print("Movie: {}".format(packageHashTable.search(i+1))) 
+'''
