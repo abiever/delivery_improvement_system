@@ -2,9 +2,10 @@ import hash_table_class
 import package_class
 import csv
 
-# "Package ID",Address,City,State,Zip,"Delivery Deadline","Weight KILO","Special Notes",
-    
-# TODO: Use this to get csv data loaded into hash table?
+# instance of the self-adjusting data structure
+packageHashTable = hash_table_class.ChainingHashTable()
+
+# this function reads through the WGUPS package CVS file, then 'loads' it into the hash table
 def loadPackageData(fileName):
     with open(fileName, newline='') as packageDataCSV:
         packageData = csv.reader(packageDataCSV, delimiter=',')
@@ -19,7 +20,7 @@ def loadPackageData(fileName):
             packageWeight = packageInfo[6]
             packageStatus = "at hub"
 
-            # movie object
+            # creates new Package object
             newPackage = package_class.Package(
                 packageID,
                 packageAddress,
@@ -30,21 +31,40 @@ def loadPackageData(fileName):
                 packageWeight,
                 packageStatus
             )
-            # print(m)
 
-            # insert it into the hash table
+            # inserts newly created Package object into the hash table with its unique ID
             packageHashTable.insert(packageID, newPackage)
 
 
-packageHashTable = hash_table_class.ChainingHashTable()
+distanceDateList = []
+def loadDistanceData(fileName):
+    with open(fileName, newline='') as distanceDataCSV:
+        distanceData = csv.reader(distanceDataCSV, delimiter=',')
+        next(distanceData)  # this skips the header
+        # loop through the distanceDataCSV and add  the data to distanceDataList one row at a time
+        for distanceInfo in distanceData:
+            distanceDateList.add(int(distanceInfo[0]))
+
 
 loadPackageData("WGUPS_package_file.csv")
+# loadDistanceData("WGUPS_distance_table.csv")
 
-print(packageHashTable.table.)
-
-'''
 print("Package Data from Hashtable:")
 # Fetch data from Hash Table
-for i in range(len(packageHashTable)+1):
-    print("Movie: {}".format(packageHashTable.search(i+1))) 
-'''
+for i in range(len(packageHashTable.table)):
+    print("Package: {}".format(packageHashTable.search(i+1)))
+
+#TODO: Play with this to make increasing 2D list
+print("A 2D List:")
+i = 1
+maxRows = 10
+arr
+while i < maxRows:
+    rows, cols = (i, i)
+    arr = [[0 for i in range(i)] for j in range(i)]
+print(arr)
+
+
+print("Distance Data List:")
+print(distanceDateList)
+
