@@ -39,32 +39,38 @@ def loadPackageData(fileName):
 distanceDateList = []
 def loadDistanceData(fileName):
     with open(fileName, newline='') as distanceDataCSV:
-        distanceData = csv.reader(distanceDataCSV, delimiter=',')
-        next(distanceData)  # this skips the header
+        distanceData = csv.reader(distanceDataCSV, delimiter=',', dialect='unix')
+        next(distanceData)  # this skips the header??
+        next(distanceData) # having these here makes a difference TODO: use this to help create AddressList?
         # loop through the distanceDataCSV and add  the data to distanceDataList one row at a time
         for distanceInfo in distanceData:
-            distanceDateList.add(int(distanceInfo[0]))
+            distanceDateList.append(distanceInfo)
 
 
 loadPackageData("WGUPS_package_file.csv")
-# loadDistanceData("WGUPS_distance_table.csv")
+loadDistanceData("WGUPS Distance Table - Sheet1.csv")
 
 print("Package Data from Hashtable:")
 # Fetch data from Hash Table
 for i in range(len(packageHashTable.table)):
     print("Package: {}".format(packageHashTable.search(i+1)))
 
-#TODO: Play with this to make increasing 2D list
-print("A 2D List:")
+print("An Increasing 2D List:")
 i = 1
 maxRows = 10
-arr
+arr = []
 while i < maxRows:
-    rows, cols = (i, i)
-    arr = [[0 for i in range(i)] for j in range(i)]
+    arr.append([0 for i in range(i)])
+    # print(arr)
+    i += 1
 print(arr)
-
+arr[1][1] = 5
+arr[4][3] = 'alex'
+arr[6][0] = 783
+print(arr)
 
 print("Distance Data List:")
 print(distanceDateList)
+# print(distanceDateList[4])
+# print(distanceDateList[4][4])
 
