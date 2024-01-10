@@ -3,12 +3,16 @@ import package_class
 import methods
 import csv
 
-# instance of the self-adjusting data structure, followed by loading with data
+# instance of the self-adjusting data structure, followed by a method call to load it with package data
 packageHashTable = hash_table_class.ChainingHashTable()
 methods.loadPackageData("WGUPS_package_file.csv", packageHashTable)
 
+# a list ADT to hold distances, followed by a method call to load the list with data
 distanceDataList = []
 methods.loadDistanceData("WGUPS_distance_table.csv", distanceDataList)
+
+addressDataList = []
+methods.loadAddressData("WGUPS_distance_table.csv", addressDataList)
 
 # display the hash table data to the console
 # print("Package Data from Hashtable:")
@@ -18,7 +22,9 @@ methods.loadDistanceData("WGUPS_distance_table.csv", distanceDataList)
 
 
 print("Distance Data List:")
+print(len(distanceDataList))
 print(distanceDataList)
-# print(distanceDateList[4])
-# print(distanceDateList[4][4])
 
+print("Address Data List:")
+print(len(addressDataList))
+print(addressDataList)
