@@ -13,14 +13,20 @@ addressDataList = []
 methods.loadAddressData("WGUPS_distance_table.csv", addressDataList)
 
 def distanceBetween(address1, address2):
-    return distanceDataList[address1][address2]
+    return distanceDataList[addressDataList.index(address1)][addressDataList.index(address2)]
+
+index1 = addressDataList.index('3365 S 900 W')
+index2 = addressDataList.index('177 W Price Ave')
 
 print("Address Data List Index of String Value:")
-print(addressDataList.index('Salt Lake County/United Police Dept 3365 S 900 W'))
+print(index1)
+print(index2)
 
-# print(distanceBetween(1, 1))
+print("Output of distanceBetween Function:")
+print(distanceBetween('3365 S 900 W', '177 W Price Ave'))
 
-# print(distanceDataList[4][2])
+print("Output from distanceDataList:")
+print(distanceDataList[index1][index2])
 
 # display the hash table data to the console
 # print("Package Data from Hashtable:")
@@ -28,10 +34,11 @@ print(addressDataList.index('Salt Lake County/United Police Dept 3365 S 900 W'))
 # for i in range(len(packageHashTable.table)):
 #     print("Package: {}".format(packageHashTable.search(i+1)))
 
-# print("Distance Data List:")
-# print(len(distanceDataList))
-# print(distanceDataList)
-#
+print("Distance Data List:")
+print("Length:", len(distanceDataList))
+print(distanceDataList)
+
 # print("Address Data List:")
-# print(len(addressDataList))
-# print(addressDataList)
+# print("Length:", len(addressDataList))
+# for i in range(len(addressDataList)):
+#     print(addressDataList[i])

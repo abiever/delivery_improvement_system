@@ -5,3 +5,5 @@ class Truck:
 
     def __str__(self):  # overwrite print(Movie) otherwise it will print object reference
         return "%s, %s, %s, %s, %s" % (self.ID, self.name, self.year, self.price, self.status)
+
+    #will likely need a method that 'removes' a package from the list once its been delivered
