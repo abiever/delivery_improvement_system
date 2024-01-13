@@ -16,3 +16,6 @@ class Package:
         self.zip, self.deadline, self.weight, self.status)
 
     # may need getters for each member, but 'getAddress()' is likely most important
+    def getPackageID(self):
+        return self.ID
+

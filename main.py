@@ -29,25 +29,33 @@ methods.loadAddressData("WGUPS_distance_table.csv", addressDataList)
 # print("Output of distanceBetween Function for:", secondAddress, "to", firstAddress)
 # print(methods.distanceBetween(secondAddress, firstAddress, addressDataList, distanceDataList))
 
-truck1 = truck_class.Truck()
+truck1 = truck_class.Truck(1)
 truck1.addPackage(packageHashTable.search(1))
 truck1.addPackage(packageHashTable.search(20))
-truck1.printPackageList(1)
+truck1.printPackageList()
 
-truck2 = truck_class.Truck()
+truck2 = truck_class.Truck(2)
 truck2.addPackage(packageHashTable.search(3))
 truck2.addPackage(packageHashTable.search(18))
 truck2.addPackage(packageHashTable.search(36))
 truck2.addPackage(packageHashTable.search(38))
-truck2.printPackageList(2)
+truck2.printPackageList()
+
+truck1.removePackage(1)
+truck1.printPackageList()
+truck1.removePackage(20)
+truck1.printPackageList()
+
+truck2.removePackage(18)
+truck2.printPackageList()
 # print("Output from distanceDataList:", index1, "-", index2)
 # print(distanceDataList[index1][index2])
 
 # display the hash table data to the console
-print("Package Data from Hashtable:")
-# Fetch data from Hash Table
-for i in range(len(packageHashTable.table)):
-    print("Package: {}".format(packageHashTable.search(i+1)))
+# print("Package Data from Hashtable:")
+# # Fetch data from Hash Table
+# for i in range(len(packageHashTable.table)):
+#     print("Package: {}".format(packageHashTable.search(i+1)))
 
 # print("Distance Data List:")
 # print("Length:", len(distanceDataList))
