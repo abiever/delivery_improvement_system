@@ -6,50 +6,44 @@ import methods
 packageHashTable = hash_table_class.ChainingHashTable()
 methods.loadPackageData("WGUPS_package_file.csv", packageHashTable)
 
-# a list ADT to hold distances, followed by a method call to load the list with data
+# a list ADT to hold distances, followed by a method call to load the list with distance data
 distanceDataList = []
 methods.loadDistanceData("WGUPS_distance_table.csv", distanceDataList)
 
+# a list ADT to hold addresses, follwed by a method call to load the list with address data
 addressDataList = []
 methods.loadAddressData("WGUPS_distance_table.csv", addressDataList)
 
-# firstAddress = '2835 Main St'
-# index1 = addressDataList.index(firstAddress)
-#
-# secondAddress = '3060 Lester St'
-# index2 = addressDataList.index(secondAddress)
-#
-# print("Address Data List Index of String Value:")
-# print(index1)
-# print(index2)
-#
-# print("Output of distanceBetween Function for:", firstAddress, "to", secondAddress)
-# print(methods.distanceBetween(firstAddress, secondAddress, addressDataList, distanceDataList))
-#
-# print("Output of distanceBetween Function for:", secondAddress, "to", firstAddress)
-# print(methods.distanceBetween(secondAddress, firstAddress, addressDataList, distanceDataList))
-
 truck1 = truck_class.Truck(1)
 truck1.addPackage(packageHashTable.search(1))
+truck1.addPackage(packageHashTable.search(2))
+truck1.addPackage(packageHashTable.search(4))
+truck1.addPackage(packageHashTable.search(5))
+truck1.addPackage(packageHashTable.search(7))
+truck1.addPackage(packageHashTable.search(8))
+truck1.addPackage(packageHashTable.search(10))
+truck1.addPackage(packageHashTable.search(11))
+truck1.addPackage(packageHashTable.search(12))
+# packages 13, 14, 15, 16, 19, 20 must all be delivered together
+truck1.addPackage(packageHashTable.search(13))
+truck1.addPackage(packageHashTable.search(14))
+truck1.addPackage(packageHashTable.search(15))
+truck1.addPackage(packageHashTable.search(16))
+truck1.addPackage(packageHashTable.search(17))
+truck1.addPackage(packageHashTable.search(19))
 truck1.addPackage(packageHashTable.search(20))
 truck1.printPackageList()
 
 truck2 = truck_class.Truck(2)
+# packages 3, 18, 36, 38 must all be on Truck #2
 truck2.addPackage(packageHashTable.search(3))
 truck2.addPackage(packageHashTable.search(18))
 truck2.addPackage(packageHashTable.search(36))
 truck2.addPackage(packageHashTable.search(38))
 truck2.printPackageList()
 
-truck1.removePackage(1)
-truck1.printPackageList()
-truck1.removePackage(20)
-truck1.printPackageList()
-
-truck2.removePackage(18)
-truck2.printPackageList()
-# print("Output from distanceDataList:", index1, "-", index2)
-# print(distanceDataList[index1][index2])
+print("lookup function test:")
+print(methods.hashTableLookUp(packageHashTable, 38))
 
 # display the hash table data to the console
 # print("Package Data from Hashtable:")

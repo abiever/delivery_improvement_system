@@ -19,3 +19,9 @@ class Package:
     def getPackageID(self):
         return self.ID
 
+    def getAddress(self):
+        return self.address
+
+    def setStatus(self, newStatus):
+        self.status = newStatus #TODO: potentially use this to set as "en route" or "delivered"
+
