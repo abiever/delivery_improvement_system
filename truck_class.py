@@ -2,6 +2,8 @@ class Truck:
     def __init__(self, truckNumber):
         self.packages = []
         self.truckNumber = truckNumber
+        self.startingAddress = "Western Governors University 4001 South 700 East, Salt Lake City, UT 84107"
+        #TODO: add a "startingAddress" here set to HUB, then update it as needed when doing NN algorithm steps
 
     # def __str__(self):  # overwrite print(Movie) otherwise it will print object reference
     #     return "%s, %s, %s, %s, %s" % (self.ID, self.name, self.year, self.price, self.status)
@@ -35,4 +37,10 @@ class Truck:
                 print(package)
         else:
             print("No packages in Truck #" + str(self.truckNumber))
+
+    def getStartingAddress(self):
+        return self.startingAddress
+
+    def setStartingAddress(self, startingAddress):
+        self.startingAddress = startingAddress
 
