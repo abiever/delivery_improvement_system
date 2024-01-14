@@ -20,13 +20,22 @@ def distanceBetween(address1, address2):
 
 def minDistanceFrom(fromAddress, truckPackages):
     minDistance = None
+    # someDistance = None  # this is used to help check ALL the distances in the truckPackages list
 
     for i in range(len(truckPackages)):
+        # this is used to help check ALL the distances in the truckPackages list
+        # someDistance = distanceBetween(fromAddress, truckPackages[i].getAddress())
+        # print("Some distance" + str(i), someDistance)
         if minDistance is None:
             minDistance = distanceBetween(fromAddress, truckPackages[i].getAddress())
+            # print() check to ensure distances are correct
+            # print(minDistance)
         if minDistance > distanceBetween(fromAddress, truckPackages[i].getAddress()):
             minDistance = distanceBetween(fromAddress, truckPackages[i].getAddress())
+            # print() check to ensure distances are correct
+            # print(minDistance)
 
+    # return "Min Distance is " + str(minDistance)
     return minDistance
 
 # instance of the self-adjusting data structure, followed by a method call to load it with package data
@@ -90,11 +99,11 @@ print(minDistanceFrom(truck1.getStartingAddress(), truck1.getPackages()))
 # for i in range(len(packageHashTable.table)):
 #     print("Package: {}".format(packageHashTable.search(i+1)))
 
-print("Distance Data List:")
-print("Length:", len(distanceDataList))
-print(distanceDataList)
-
-print("Address Data List:")
-print("Length:", len(addressDataList))
-for i in range(len(addressDataList)):
-    print(addressDataList[i])
+# print("Distance Data List:")
+# print("Length:", len(distanceDataList))
+# print(distanceDataList)
+#
+# print("Address Data List:")
+# print("Length:", len(addressDataList))
+# for i in range(len(addressDataList)):
+#     print(addressDataList[i])
