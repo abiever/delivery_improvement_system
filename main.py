@@ -24,12 +24,10 @@ def minDistanceFrom(fromAddress, truckPackages):
     for i in range(len(truckPackages)):
         if minDistance is None:
             minDistance = distanceBetween(fromAddress, truckPackages[i].getAddress())
-        if minDistance < distanceBetween(fromAddress, truckPackages[i].getAddress()):
+        if minDistance > distanceBetween(fromAddress, truckPackages[i].getAddress()):
             minDistance = distanceBetween(fromAddress, truckPackages[i].getAddress())
 
     return minDistance
-    #TODO: use a combination of distanceBetween and getAddress() from packages in trucks to find min distance
-
 
 # instance of the self-adjusting data structure, followed by a method call to load it with package data
 packageHashTable = hash_table_class.ChainingHashTable()
@@ -68,10 +66,11 @@ truck1Packages = truck1.getPackages()
 # print(truck1Packages[10].getAddress())
 # print("Distance between two addresses in Truck #1:")
 # print(distanceBetween(truck1Packages[8].getAddress(), truck1Packages[10].getAddress()))
+
+# TODO: This appears to work! Double check by printing out all distances for packages in truck and visually confirming next
+print("Minimum distance for Packages in Truck #1:")
 print(minDistanceFrom(truck1.getStartingAddress(), truck1.getPackages()))
 
-#TODO: 1) Try to getAddress() from two truck packages, then get the distance between these 2 addresses using distanceBetween()
-#TODO: 2) If successsful, create algorithm to automatically do this NN-style with minDistance() method
 
 
 # truck2 = truck_class.Truck(2)
@@ -95,7 +94,7 @@ print("Distance Data List:")
 print("Length:", len(distanceDataList))
 print(distanceDataList)
 
-# print("Address Data List:")
-# print("Length:", len(addressDataList))
-# for i in range(len(addressDataList)):
-#     print(addressDataList[i])
+print("Address Data List:")
+print("Length:", len(addressDataList))
+for i in range(len(addressDataList)):
+    print(addressDataList[i])
