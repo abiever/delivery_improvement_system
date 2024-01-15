@@ -22,6 +22,7 @@ def distanceBetween(address1, address2):
 def minDistanceFrom(fromAddress, truckPackages):
     minDistance = None
     minDistanceAddress = None
+    minDistancePkgID = None
 
     for i in range(len(truckPackages)):
 
@@ -31,16 +32,21 @@ def minDistanceFrom(fromAddress, truckPackages):
         if minDistance > distanceBetween(fromAddress, truckPackages[i].getAddress()):
             minDistance = distanceBetween(fromAddress, truckPackages[i].getAddress())
             minDistanceAddress = truckPackages[i].getAddress()  # return this and use it to update startingAddress in truck
+            minDistancePkgID = truckPackages[i].getPackageID()
 
-    return minDistance, minDistanceAddress
+    return minDistance, minDistanceAddress, minDistancePkgID
 
 def deliverTruckPackages(truck):
     #TODO:  1) call minDistance for the addresses in the truck
-    #       2) call the truck's deliverPackage() method, setStatus() of all packages to "en route"
+    #       2) call the truck's deliverPackage() method, setStatus() of all packages to "en route" right at start of delivery 8am
     #       3) update startingAddress to most recently visited address
     #       4) call minDistance again for remaining addresses in a loop until all delieverd
     #       5) keep track fo time
-    deliveryDistance = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())
+
+    # utilized 'unpacking' to initialize the below variables with the tuple values from minDistanceFrom() call
+    minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())
+    # minDeliveryAddress = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())[1]
+    print(minDeliveryDistance, minDeliveryAddress)
 
 
 current_time = time(8, 0, 0)
@@ -88,6 +94,8 @@ truck2.addPackage(packageHashTable.search(38))
 print("Minimum distance for Packages in Truck #2:")
 print(minDistanceFrom(truck2.getStartingAddress(), truck2.getPackages()))
 
+print("deliverTruckPackages() Test:")
+deliverTruckPackages(truck1)
 
 # print("lookup function test:")
 # print(methods.hashTableLookUp(packageHashTable, 38))
