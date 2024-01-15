@@ -15,13 +15,27 @@ class Package:
         return "%s, %s, %s, %s, %s, %s, %s, %s" % (self.ID, self.address, self.city, self.state,
         self.zip, self.deadline, self.weight, self.status)
 
-    # may need getters for each member, but 'getAddress()' is likely most important
     def getPackageID(self):
         return self.ID
 
     def getAddress(self):
         return self.address
 
+    def getCity(self):
+        return self.city
+
+    def getZip(self):
+        return self.zip
+
+    def getDeadline(self):
+        return self.deadline
+
+    def getWeight(self):
+        return self.weight
+
+    def getStatus(self):
+        return self.status
+
     def setStatus(self, newStatus):
-        self.status = newStatus #TODO: potentially use this to set as "en route" or "delivered"
+        self.status = newStatus
 

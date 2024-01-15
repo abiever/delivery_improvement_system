@@ -17,11 +17,14 @@ class Truck:
             if package.getPackageID() == packageID:
                 self.packages.remove(package)
 
-    def deliverPackage(self, packageID):
+    def dropOffPackage(self, packageID, hashTable):
         # TODO: this method needs to both remove the package from the packages list and update the hashtable to say 'delivered' + time
         # TODO: package.setStatus() to "delivered" and set delivery time
         for package in self.packages:
             if package.getPackageID() == packageID:
+                package.setStatus("Delivered.")
+                # insert/update this specific hashtable entry?
+                # hashTable.insert(#getPackageStuff)
                 self.packages.remove(package)
 
     def getPackages(self):

@@ -44,9 +44,17 @@ def deliverTruckPackages(truck):
     #       5) keep track fo time
 
     # utilized 'unpacking' to initialize the below variables with the tuple values from minDistanceFrom() call
+    # minDistanceFrom() returns 3 values in a tuple
     minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())
-    # minDeliveryAddress = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())[1]
     print(minDeliveryDistance, minDeliveryAddress)
+
+    for package in truck.getPackages():
+        # TODO: NEED TO UPDATE HASH TABLE TOO
+        package.setStatus("Out for Delivery")
+
+    truck.printPackageList()
+
+    # truck.dropOffPackage(minDeliveryPkgID)
 
 
 current_time = time(8, 0, 0)
@@ -84,6 +92,8 @@ truck1.addPackage(packageHashTable.search(20))
 
 print("Minimum distance for Packages in Truck #1:")
 print(minDistanceFrom(truck1.getStartingAddress(), truck1.getPackages()))
+
+# truck1.printPackageList()
 
 truck2 = truck_class.Truck(2)
 # packages 3, 18, 36, 38 must all be on Truck #2
