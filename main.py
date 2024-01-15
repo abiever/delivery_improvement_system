@@ -1,6 +1,7 @@
 import hash_table_class
 import truck_class
 import methods
+from datetime import date, time
 
 def distanceBetween(address1, address2):
     indexAddress1 = addressDataList.index(address1)
@@ -20,23 +21,29 @@ def distanceBetween(address1, address2):
 
 def minDistanceFrom(fromAddress, truckPackages):
     minDistance = None
-    # someDistance = None  # this is used to help check ALL the distances in the truckPackages list
+    minDistanceAddress = None
 
     for i in range(len(truckPackages)):
-        # this is used to help check ALL the distances in the truckPackages list
-        # someDistance = distanceBetween(fromAddress, truckPackages[i].getAddress())
-        # print("Some distance" + str(i), someDistance)
+
         if minDistance is None:
             minDistance = distanceBetween(fromAddress, truckPackages[i].getAddress())
-            # print() check to ensure distances are correct
-            # print(minDistance)
+
         if minDistance > distanceBetween(fromAddress, truckPackages[i].getAddress()):
             minDistance = distanceBetween(fromAddress, truckPackages[i].getAddress())
-            # print() check to ensure distances are correct
-            # print(minDistance)
+            minDistanceAddress = truckPackages[i].getAddress()  # return this and use it to update startingAddress in truck
 
-    # return "Min Distance is " + str(minDistance)
-    return minDistance
+    return minDistance, minDistanceAddress
+
+def deliverTruckPackages(truck):
+    #TODO:  1) call minDistance for the addresses in the truck
+    #       2) call the truck's deliverPackage() method, setStatus() of all packages to "en route"
+    #       3) update startingAddress to most recently visited address
+    #       4) call minDistance again for remaining addresses in a loop until all delieverd
+    #       5) keep track fo time
+    deliveryDistance = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())
+
+
+current_time = time(8, 0, 0)
 
 # instance of the self-adjusting data structure, followed by a method call to load it with package data
 packageHashTable = hash_table_class.ChainingHashTable()
@@ -68,27 +75,19 @@ truck1.addPackage(packageHashTable.search(16))
 truck1.addPackage(packageHashTable.search(17))
 truck1.addPackage(packageHashTable.search(19))
 truck1.addPackage(packageHashTable.search(20))
-truck1.printPackageList()
-truck1Packages = truck1.getPackages()
-# this appears to successfully be getting the appropriate address and printing it out as needed
-# print(truck1Packages[8].getAddress())
-# print(truck1Packages[10].getAddress())
-# print("Distance between two addresses in Truck #1:")
-# print(distanceBetween(truck1Packages[8].getAddress(), truck1Packages[10].getAddress()))
 
-# TODO: This appears to work! Double check by printing out all distances for packages in truck and visually confirming next
 print("Minimum distance for Packages in Truck #1:")
 print(minDistanceFrom(truck1.getStartingAddress(), truck1.getPackages()))
 
+truck2 = truck_class.Truck(2)
+# packages 3, 18, 36, 38 must all be on Truck #2
+truck2.addPackage(packageHashTable.search(3))
+truck2.addPackage(packageHashTable.search(18))
+truck2.addPackage(packageHashTable.search(36))
+truck2.addPackage(packageHashTable.search(38))
+print("Minimum distance for Packages in Truck #2:")
+print(minDistanceFrom(truck2.getStartingAddress(), truck2.getPackages()))
 
-
-# truck2 = truck_class.Truck(2)
-# # packages 3, 18, 36, 38 must all be on Truck #2
-# truck2.addPackage(packageHashTable.search(3))
-# truck2.addPackage(packageHashTable.search(18))
-# truck2.addPackage(packageHashTable.search(36))
-# truck2.addPackage(packageHashTable.search(38))
-# truck2.printPackageList()
 
 # print("lookup function test:")
 # print(methods.hashTableLookUp(packageHashTable, 38))
@@ -99,11 +98,3 @@ print(minDistanceFrom(truck1.getStartingAddress(), truck1.getPackages()))
 # for i in range(len(packageHashTable.table)):
 #     print("Package: {}".format(packageHashTable.search(i+1)))
 
-# print("Distance Data List:")
-# print("Length:", len(distanceDataList))
-# print(distanceDataList)
-#
-# print("Address Data List:")
-# print("Length:", len(addressDataList))
-# for i in range(len(addressDataList)):
-#     print(addressDataList[i])

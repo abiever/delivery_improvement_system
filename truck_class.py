@@ -5,9 +5,6 @@ class Truck:
         self.startingAddress = "4001 South 700 East, Salt Lake City, UT 84107"
         #TODO: add a "startingAddress" here set to HUB, then update it as needed when doing NN algorithm steps
 
-    # def __str__(self):  # overwrite print(Movie) otherwise it will print object reference
-    #     return "%s, %s, %s, %s, %s" % (self.ID, self.name, self.year, self.price, self.status)
-
     # this method will either append a package to the packages list or print that the list is full
     def addPackage(self, package):
         if len(self.packages) < 16:
@@ -22,6 +19,7 @@ class Truck:
 
     def deliverPackage(self, packageID):
         # TODO: this method needs to both remove the package from the packages list and update the hashtable to say 'delivered' + time
+        # TODO: package.setStatus() to "delivered" and set delivery time
         for package in self.packages:
             if package.getPackageID() == packageID:
                 self.packages.remove(package)
