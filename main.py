@@ -43,18 +43,29 @@ def deliverTruckPackages(truck):
     #       4) call minDistance again for remaining addresses in a loop until all delieverd
     #       5) keep track fo time
 
-    # utilized 'unpacking' to initialize the below variables with the tuple values from minDistanceFrom() call
-    # minDistanceFrom() returns 3 values in a tuple
-    minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())
-    # print(minDeliveryDistance, minDeliveryAddress)
+    totalDistanceTravelled = 0
 
     for package in truck.getPackages():
-        # TODO: NEED TO UPDATE HASH TABLE TOO
+        # TODO: Figure out WHY this seems to automatically update the hashTable too
         package.setStatus("Out for Delivery")
+        # TODO: Set time to start at 8am to begin delivery clock
+        while len(truck.getPackages()) > 0:
+            minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())
+            totalDistanceTravelled += minDeliveryDistance
+            truck.dropOffPackage(minDeliveryPkgID, packageHashTable)
+            truck.setStartingAddress(minDeliveryAddress)
+            if minDeliveryAddress is None:
+                return totalDistanceTravelled
 
+    return totalDistanceTravelled
+    # TODO: I need a loop here to call whats below and update total distance above
+    # utilized 'unpacking' to initialize the below variables with the tuple values from minDistanceFrom() call
+    # minDistanceFrom() returns 3 values in a tuple
+    # minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())
+    # print(minDeliveryDistance, minDeliveryAddress)
     # truck.printPackageList()
 
-    truck.dropOffPackage(minDeliveryPkgID, packageHashTable)
+    # truck.dropOffPackage(minDeliveryPkgID, packageHashTable)
 
 
 current_time = time(8, 0, 0)
