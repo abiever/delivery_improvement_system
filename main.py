@@ -3,6 +3,7 @@ import truck_class
 import methods
 from datetime import date, time
 
+
 def distanceBetween(address1, address2):
     indexAddress1 = addressDataList.index(address1)
     indexAddress2 = addressDataList.index(address2)
@@ -18,6 +19,7 @@ def distanceBetween(address1, address2):
 
     else:
         return distanceDataList[indexAddress1][indexAddress2]
+
 
 def minDistanceFrom(fromAddress, truckPackages):
     minDistance = None
@@ -36,44 +38,32 @@ def minDistanceFrom(fromAddress, truckPackages):
 
     return minDistance, minDistanceAddress, minDistancePkgID
 
-def deliverTruckPackages(truck):
-    #TODO:  1) call minDistance for the addresses in the truck
-    #       2) call the truck's deliverPackage() method, setStatus() of all packages to "en route" right at start of delivery 8am
-    #       3) update startingAddress to most recently visited address
-    #       4) call minDistance again for remaining addresses in a loop until all delieverd
-    #       5) keep track fo time
 
+def deliverTruckPackages(truck):
     totalDistanceTravelled = 0
+    speed = 18
+    currentTime = time(8, 0, 0)
 
     for package in truck.getPackages():
-        # TODO: Figure out WHY this seems to automatically update the hashTable too
-        package.setStatus("Out for Delivery")
+        # this appears to automatically update the hash table
+        package.setStatus("Out for delivery as of " + str(currentTime))
+        # truck.printPackageList() # This is just to help check time inputs
         # TODO: Set time to start at 8am to begin delivery clock
+
     while len(truck.getPackages()) > 0:
         minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())
         totalDistanceTravelled += minDeliveryDistance
         truck.setStartingAddress(minDeliveryAddress)
-        truck.dropOffPackage(minDeliveryPkgID, packageHashTable)
+        truck.dropOffPackage(minDeliveryPkgID, packageHashTable) #delivertyTime here?
         print("Truck Package List Length:", len(truck.getPackages()))
         print("Minimum Address:", minDeliveryAddress)
         print("Current Distance Travelled:", totalDistanceTravelled)
         if len(truck.getPackages()) == 0:
-            print("Total Distance Travelled for Truck #" + str(truck.getTruckNumber()) + ": " + str(totalDistanceTravelled) + " miles.")
+            truck.setTotalDeliveryDistance(totalDistanceTravelled)
+            # print("Total Distance Travelled for Truck #" + str(truck.getTruckNumber()) + ": " + str(totalDistanceTravelled) + " miles.")
             return
 
-    # print("Total Distance Travelled for " + str(truck) + str(totalDistanceTravelled))
-    # return totalDistanceTravelled
-    # TODO: I need a loop here to call whats below and update total distance above
-    # utilized 'unpacking' to initialize the below variables with the tuple values from minDistanceFrom() call
-    # minDistanceFrom() returns 3 values in a tuple
-    # minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())
-    # print(minDeliveryDistance, minDeliveryAddress)
-    # truck.printPackageList()
 
-    # truck.dropOffPackage(minDeliveryPkgID, packageHashTable)
-
-
-current_time = time(8, 0, 0)
 
 # instance of the self-adjusting data structure, followed by a method call to load it with package data
 packageHashTable = hash_table_class.ChainingHashTable()
@@ -90,7 +80,7 @@ methods.loadAddressData("WGUPS_distance_table.csv", addressDataList)
 print("Package Data from Hashtable (before):")
 # Fetch data from Hash Table
 for i in range(len(packageHashTable.table)):
-    print("Package: {}".format(packageHashTable.search(i+1)))
+    print("Package: {}".format(packageHashTable.search(i + 1)))
 
 truck1 = truck_class.Truck(1)
 truck1.addPackage(packageHashTable.search(1))
@@ -131,6 +121,9 @@ deliverTruckPackages(truck1)
 print("Truck 1 packages AFTER delivery:")
 truck1.printPackageList()
 
+print("Total Distance Travelled for Truck #1 test:")
+print(truck1.getTotalDeliveryDistance())
+
 # print("lookup function test:")
 # print(methods.hashTableLookUp(packageHashTable, 38))
 
@@ -138,5 +131,4 @@ truck1.printPackageList()
 print("Package Data from Hashtable (after):")
 # Fetch data from Hash Table
 for i in range(len(packageHashTable.table)):
-    print("Package: {}".format(packageHashTable.search(i+1)))
-
+    print("Package: {}".format(packageHashTable.search(i + 1)))

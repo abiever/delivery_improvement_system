@@ -3,7 +3,7 @@ class Truck:
         self.packages = []
         self.truckNumber = truckNumber
         self.startingAddress = "4001 South 700 East, Salt Lake City, UT 84107"
-        #TODO: add a "startingAddress" here set to HUB, then update it as needed when doing NN algorithm steps
+        self.totalDeliveryDistance = 0
 
     # this method will either append a package to the packages list or print that the list is full
     def addPackage(self, package):
@@ -17,12 +17,12 @@ class Truck:
             if package.getPackageID() == packageID:
                 self.packages.remove(package)
 
-    def dropOffPackage(self, packageID, hashTable):
+    def dropOffPackage(self, packageID, hashTable, deliveryTime):
         # TODO: this method needs to both remove the package from the packages list and update the hashtable to say 'delivered' + time
         # TODO: package.setStatus() to "delivered" and set delivery time
         for package in self.packages:
             if package.getPackageID() == packageID:
-                package.setStatus("Delivered.")
+                package.setStatus("Delivered." + str(deliveryTime))
                 # insert/update this specific hashtable entry
                 hashTable.insert(package.getPackageID(), package)
                 self.packages.remove(package)
@@ -47,4 +47,10 @@ class Truck:
 
     def getTruckNumber(self):
         return self.truckNumber
+
+    def setTotalDeliveryDistance(self, totalDeliveryDistance):
+        self.totalDeliveryDistance = totalDeliveryDistance
+
+    def getTotalDeliveryDistance(self):
+        return self.totalDeliveryDistance
 
