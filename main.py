@@ -29,7 +29,7 @@ def minDistanceFrom(fromAddress, truckPackages):
         if minDistance is None:
             minDistance = distanceBetween(fromAddress, truckPackages[i].getAddress())
 
-        if minDistance > distanceBetween(fromAddress, truckPackages[i].getAddress()):
+        if minDistance >= distanceBetween(fromAddress, truckPackages[i].getAddress()):
             minDistance = distanceBetween(fromAddress, truckPackages[i].getAddress())
             minDistanceAddress = truckPackages[i].getAddress()  # return this and use it to update startingAddress in truck
             minDistancePkgID = truckPackages[i].getPackageID()
@@ -49,15 +49,20 @@ def deliverTruckPackages(truck):
         # TODO: Figure out WHY this seems to automatically update the hashTable too
         package.setStatus("Out for Delivery")
         # TODO: Set time to start at 8am to begin delivery clock
-        while len(truck.getPackages()) > 0:
-            minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())
-            totalDistanceTravelled += minDeliveryDistance
-            truck.dropOffPackage(minDeliveryPkgID, packageHashTable)
-            truck.setStartingAddress(minDeliveryAddress)
-            if minDeliveryAddress is None:
-                return totalDistanceTravelled
+    while len(truck.getPackages()) > 0:
+        minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())
+        totalDistanceTravelled += minDeliveryDistance
+        truck.setStartingAddress(minDeliveryAddress)
+        truck.dropOffPackage(minDeliveryPkgID, packageHashTable)
+        print("Truck Package List Length:", len(truck.getPackages()))
+        print("Minimum Address:", minDeliveryAddress)
+        print("Current Distance Travelled:", totalDistanceTravelled)
+        if len(truck.getPackages()) == 0:
+            print("Total Distance Travelled for Truck #" + str(truck.getTruckNumber()) + ": " + str(totalDistanceTravelled) + " miles.")
+            return
 
-    return totalDistanceTravelled
+    # print("Total Distance Travelled for " + str(truck) + str(totalDistanceTravelled))
+    # return totalDistanceTravelled
     # TODO: I need a loop here to call whats below and update total distance above
     # utilized 'unpacking' to initialize the below variables with the tuple values from minDistanceFrom() call
     # minDistanceFrom() returns 3 values in a tuple

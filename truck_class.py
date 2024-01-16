@@ -45,3 +45,6 @@ class Truck:
     def setStartingAddress(self, startingAddress):
         self.startingAddress = startingAddress
 
+    def getTruckNumber(self):
+        return self.truckNumber
+
