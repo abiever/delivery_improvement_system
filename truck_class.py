@@ -23,8 +23,8 @@ class Truck:
         for package in self.packages:
             if package.getPackageID() == packageID:
                 package.setStatus("Delivered.")
-                # insert/update this specific hashtable entry?
-                # hashTable.insert(#getPackageStuff)
+                # insert/update this specific hashtable entry
+                hashTable.insert(package.getPackageID(), package)
                 self.packages.remove(package)
 
     def getPackages(self):

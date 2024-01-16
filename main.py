@@ -46,15 +46,15 @@ def deliverTruckPackages(truck):
     # utilized 'unpacking' to initialize the below variables with the tuple values from minDistanceFrom() call
     # minDistanceFrom() returns 3 values in a tuple
     minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())
-    print(minDeliveryDistance, minDeliveryAddress)
+    # print(minDeliveryDistance, minDeliveryAddress)
 
     for package in truck.getPackages():
         # TODO: NEED TO UPDATE HASH TABLE TOO
         package.setStatus("Out for Delivery")
 
-    truck.printPackageList()
+    # truck.printPackageList()
 
-    # truck.dropOffPackage(minDeliveryPkgID)
+    truck.dropOffPackage(minDeliveryPkgID, packageHashTable)
 
 
 current_time = time(8, 0, 0)
@@ -70,6 +70,11 @@ methods.loadDistanceData("WGUPS_distance_table.csv", distanceDataList)
 # a list ADT to hold addresses, followed by a method call to load the list with address data
 addressDataList = []
 methods.loadAddressData("WGUPS_distance_table.csv", addressDataList)
+
+print("Package Data from Hashtable (before):")
+# Fetch data from Hash Table
+for i in range(len(packageHashTable.table)):
+    print("Package: {}".format(packageHashTable.search(i+1)))
 
 truck1 = truck_class.Truck(1)
 truck1.addPackage(packageHashTable.search(1))
@@ -89,30 +94,33 @@ truck1.addPackage(packageHashTable.search(16))
 truck1.addPackage(packageHashTable.search(17))
 truck1.addPackage(packageHashTable.search(19))
 truck1.addPackage(packageHashTable.search(20))
+print("Truck 1 packages BEFORE delivery:")
+truck1.printPackageList()
 
 print("Minimum distance for Packages in Truck #1:")
 print(minDistanceFrom(truck1.getStartingAddress(), truck1.getPackages()))
 
-# truck1.printPackageList()
-
-truck2 = truck_class.Truck(2)
-# packages 3, 18, 36, 38 must all be on Truck #2
-truck2.addPackage(packageHashTable.search(3))
-truck2.addPackage(packageHashTable.search(18))
-truck2.addPackage(packageHashTable.search(36))
-truck2.addPackage(packageHashTable.search(38))
-print("Minimum distance for Packages in Truck #2:")
-print(minDistanceFrom(truck2.getStartingAddress(), truck2.getPackages()))
+# truck2 = truck_class.Truck(2)
+# # packages 3, 18, 36, 38 must all be on Truck #2
+# truck2.addPackage(packageHashTable.search(3))
+# truck2.addPackage(packageHashTable.search(18))
+# truck2.addPackage(packageHashTable.search(36))
+# truck2.addPackage(packageHashTable.search(38))
+# print("Minimum distance for Packages in Truck #2:")
+# print(minDistanceFrom(truck2.getStartingAddress(), truck2.getPackages()))
 
 print("deliverTruckPackages() Test:")
 deliverTruckPackages(truck1)
+
+print("Truck 1 packages AFTER delivery:")
+truck1.printPackageList()
 
 # print("lookup function test:")
 # print(methods.hashTableLookUp(packageHashTable, 38))
 
 # display the hash table data to the console
-# print("Package Data from Hashtable:")
-# # Fetch data from Hash Table
-# for i in range(len(packageHashTable.table)):
-#     print("Package: {}".format(packageHashTable.search(i+1)))
+print("Package Data from Hashtable (after):")
+# Fetch data from Hash Table
+for i in range(len(packageHashTable.table)):
+    print("Package: {}".format(packageHashTable.search(i+1)))
 
