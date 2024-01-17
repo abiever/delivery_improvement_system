@@ -47,26 +47,21 @@ def deliverTruckPackages(truck):
 
     for package in truck.getPackages():
         # this appears to automatically update the hash table
-        package.setStatus("Out for delivery as of " + str(currentTime))
-        # truck.printPackageList() # This is just to help check time inputs
-        # TODO: Set time to start at 8am to begin delivery clock
+        package.setStatus("Out for delivery as of " + currentTime.strftime("%H:%M:%S"))
+        truck.printPackageList() # This is just to help check time inputs
 
     while len(truck.getPackages()) > 0:
-        minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(),
-                                                                                    truck.getPackages())
+        minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())
         totalDistanceTravelled += minDeliveryDistance
         truck.setStartingAddress(minDeliveryAddress)
         timeSpent = timedelta(hours=minDeliveryDistance / speed)
         deliveryTime = currentTime + timeSpent
-        truck.dropOffPackage(minDeliveryPkgID, packageHashTable, timeSpent)  # deliveryTime (or related) here
+        truck.dropOffPackage(minDeliveryPkgID, packageHashTable, deliveryTime.strftime("%H:%M:%S"))
         print("Truck Package List Length:", len(truck.getPackages()))
         print("Minimum Address:", minDeliveryAddress)
         print("Current Distance Travelled:", totalDistanceTravelled)
         if len(truck.getPackages()) == 0:
             truck.setTotalDeliveryDistance(totalDistanceTravelled)
-            # print("Total Distance Travelled for Truck #" + str(truck.getTruckNumber()) + ": " + str(totalDistanceTravelled) + " miles.")
-            return
-
 
 # instance of the self-adjusting data structure, followed by a method call to load it with package data
 packageHashTable = hash_table_class.ChainingHashTable()
@@ -103,32 +98,37 @@ truck1.addPackage(packageHashTable.search(16))
 truck1.addPackage(packageHashTable.search(17))
 truck1.addPackage(packageHashTable.search(19))
 truck1.addPackage(packageHashTable.search(20))
-print("Truck 1 packages BEFORE delivery:")
-truck1.printPackageList()
 
-print("Minimum distance for Packages in Truck #1:")
-print(minDistanceFrom(truck1.getStartingAddress(), truck1.getPackages()))
+# print("Truck 1 packages BEFORE delivery:")
+# truck1.printPackageList()
+#
+# print("Minimum distance for Packages in Truck #1:")
+# print(minDistanceFrom(truck1.getStartingAddress(), truck1.getPackages()))
 
-# truck2 = truck_class.Truck(2)
-# # packages 3, 18, 36, 38 must all be on Truck #2
-# truck2.addPackage(packageHashTable.search(3))
-# truck2.addPackage(packageHashTable.search(18))
-# truck2.addPackage(packageHashTable.search(36))
-# truck2.addPackage(packageHashTable.search(38))
+truck2 = truck_class.Truck(2)
+# packages 3, 18, 36, 38 must all be on Truck #2
+truck2.addPackage(packageHashTable.search(3))
+truck2.addPackage(packageHashTable.search(18))
+truck2.addPackage(packageHashTable.search(36))
+truck2.addPackage(packageHashTable.search(38))
 # print("Minimum distance for Packages in Truck #2:")
 # print(minDistanceFrom(truck2.getStartingAddress(), truck2.getPackages()))
 
 print("deliverTruckPackages() Test:")
 deliverTruckPackages(truck1)
+deliverTruckPackages(truck2)
 
 print("Truck 1 packages AFTER delivery:")
 truck1.printPackageList()
 
 print("Total Distance Travelled for Truck #1 test:")
 print(truck1.getTotalDeliveryDistance())
+print("Total Distance Travelled for Truck #2 test:")
+print(truck2.getTotalDeliveryDistance())
 
-# print("lookup function test:")
-# print(methods.hashTableLookUp(packageHashTable, 38))
+print("lookup function test:")
+print(methods.hashTableLookUp(packageHashTable, 38))
+print(methods.hashTableLookUp(packageHashTable, 7))
 
 # display the hash table data to the console
 print("Package Data from Hashtable (after):")
