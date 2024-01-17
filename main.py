@@ -41,6 +41,8 @@ def minDistanceFrom(fromAddress, truckPackages):
 
 
 def deliverTruckPackages(truck):
+    # TODO: Potentially set this as truck.etc(), update the flow of logic, so we can get() times whenever? This might be necessary to
+    #  send trucks off at specific times
     totalDistanceTravelled = 0
     speed = 18  # miles per hour
     currentTime = datetime.combine(datetime.today(), time(8, 0, 0))
@@ -48,18 +50,24 @@ def deliverTruckPackages(truck):
     for package in truck.getPackages():
         # this appears to automatically update the hash table
         package.setStatus("Out for delivery as of " + currentTime.strftime("%H:%M:%S"))
-        truck.printPackageList() # This is just to help check time inputs
+        # truck.printPackageList() # This is just to help check time inputs
 
     while len(truck.getPackages()) > 0:
         minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())
         totalDistanceTravelled += minDeliveryDistance
         truck.setStartingAddress(minDeliveryAddress)
-        timeSpent = timedelta(hours=minDeliveryDistance / speed)
+        timeSpent = timedelta(hours=(minDeliveryDistance / speed))
         deliveryTime = currentTime + timeSpent
+        currentTime = deliveryTime #  MUST include to update functional scope variable with time necessary to continue from
+        # after a delivery
         truck.dropOffPackage(minDeliveryPkgID, packageHashTable, deliveryTime.strftime("%H:%M:%S"))
+
         print("Truck Package List Length:", len(truck.getPackages()))
+        print("Deliverable PkgID:", minDeliveryPkgID)
         print("Minimum Address:", minDeliveryAddress)
+        print("Current Time:", deliveryTime)
         print("Current Distance Travelled:", totalDistanceTravelled)
+
         if len(truck.getPackages()) == 0:
             truck.setTotalDeliveryDistance(totalDistanceTravelled)
 
