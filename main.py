@@ -1,7 +1,7 @@
 import hash_table_class
 import truck_class
 import methods
-from datetime import date, time
+from datetime import datetime, time, timedelta
 
 
 def distanceBetween(address1, address2):
@@ -33,7 +33,8 @@ def minDistanceFrom(fromAddress, truckPackages):
 
         if minDistance >= distanceBetween(fromAddress, truckPackages[i].getAddress()):
             minDistance = distanceBetween(fromAddress, truckPackages[i].getAddress())
-            minDistanceAddress = truckPackages[i].getAddress()  # return this and use it to update startingAddress in truck
+            minDistanceAddress = truckPackages[
+                i].getAddress()  # return this and use it to update startingAddress in truck
             minDistancePkgID = truckPackages[i].getPackageID()
 
     return minDistance, minDistanceAddress, minDistancePkgID
@@ -41,8 +42,8 @@ def minDistanceFrom(fromAddress, truckPackages):
 
 def deliverTruckPackages(truck):
     totalDistanceTravelled = 0
-    speed = 18
-    currentTime = time(8, 0, 0)
+    speed = 18  # miles per hour
+    currentTime = datetime.combine(datetime.today(), time(8, 0, 0))
 
     for package in truck.getPackages():
         # this appears to automatically update the hash table
@@ -51,10 +52,13 @@ def deliverTruckPackages(truck):
         # TODO: Set time to start at 8am to begin delivery clock
 
     while len(truck.getPackages()) > 0:
-        minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())
+        minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(),
+                                                                                    truck.getPackages())
         totalDistanceTravelled += minDeliveryDistance
         truck.setStartingAddress(minDeliveryAddress)
-        truck.dropOffPackage(minDeliveryPkgID, packageHashTable) #delivertyTime here?
+        timeSpent = timedelta(hours=minDeliveryDistance / speed)
+        deliveryTime = currentTime + timeSpent
+        truck.dropOffPackage(minDeliveryPkgID, packageHashTable, timeSpent)  # deliveryTime (or related) here
         print("Truck Package List Length:", len(truck.getPackages()))
         print("Minimum Address:", minDeliveryAddress)
         print("Current Distance Travelled:", totalDistanceTravelled)
@@ -62,7 +66,6 @@ def deliverTruckPackages(truck):
             truck.setTotalDeliveryDistance(totalDistanceTravelled)
             # print("Total Distance Travelled for Truck #" + str(truck.getTruckNumber()) + ": " + str(totalDistanceTravelled) + " miles.")
             return
-
 
 
 # instance of the self-adjusting data structure, followed by a method call to load it with package data

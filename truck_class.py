@@ -17,12 +17,12 @@ class Truck:
             if package.getPackageID() == packageID:
                 self.packages.remove(package)
 
+    # this method is similar to removePackage() but it also updates the hash table to say "delivered" along with the delivery time
     def dropOffPackage(self, packageID, hashTable, deliveryTime):
-        # TODO: this method needs to both remove the package from the packages list and update the hashtable to say 'delivered' + time
-        # TODO: package.setStatus() to "delivered" and set delivery time
+
         for package in self.packages:
             if package.getPackageID() == packageID:
-                package.setStatus("Delivered." + str(deliveryTime))
+                package.setStatus("Delivered at " + str(deliveryTime))
                 # insert/update this specific hashtable entry
                 hashTable.insert(package.getPackageID(), package)
                 self.packages.remove(package)
