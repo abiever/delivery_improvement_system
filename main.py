@@ -40,14 +40,15 @@ def minDistanceFrom(fromAddress, truckPackages):
     return minDistance, minDistanceAddress, minDistancePkgID
 
 
-def deliverTruckPackages(truck):
+#  startTime should be format time(x, x, x) or truck.getStartingTime?
+def deliverTruckPackages(truck, startTime):
     # TODO: Potentially set this as truck.etc(), update the flow of logic, so we can get() times whenever? This might be necessary to
     #  send trucks off at specific times
     # TODO: can update above argument to include a provided "startTime", which can also call getFinalTime from Truck itself
 
     totalDistanceTravelled = truck.getTotalDeliveryDistance()
     speed = 18  # miles per hour
-    currentTime = datetime.combine(datetime.today(), time(8, 0, 0))
+    currentTime = datetime.combine(datetime.today(), startTime)
 
     for package in truck.getPackages():
         # this appears to automatically update the hash table
@@ -143,8 +144,6 @@ truck2.addPackage(packageHashTable.search(38))
 # undelivered packages with strict deadlines
 # 6 (10:30am), 25 (10:30am), 29-30-31 (10:30am), 34 (10:30am), 37 (10:30am), 40 (10:30am)
 
-# TODO: Will likely need to make "accumulated time" a part of the Truck_Class so that we can pass it to the next round of deliveries
-
 # packages delayed until 9:05am
 # 6, 25, 28, 32,
 
@@ -161,10 +160,10 @@ truck1.printPackageList()
 print("Truck 2 packages AFTER delivery:")
 truck2.printPackageList()
 
-print("Total Distance Travelled for Truck #1 test:")
-print(truck1.getTotalDeliveryDistance())
-print("Total Distance Travelled for Truck #2 test:")
-print(truck2.getTotalDeliveryDistance())
+print("Total Distance Travelled and ending time for Truck #1 test:")
+print(truck1.getTotalDeliveryDistance(), truck1.getEndingTime())
+print("Total Distance Travelled and ending time for Truck #2 test:")
+print(truck2.getTotalDeliveryDistance(), truck2.getEndingTime())
 
 print("lookup function test:")
 print(methods.hashTableLookUp(packageHashTable, 38))
