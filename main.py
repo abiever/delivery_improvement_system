@@ -43,7 +43,9 @@ def minDistanceFrom(fromAddress, truckPackages):
 def deliverTruckPackages(truck):
     # TODO: Potentially set this as truck.etc(), update the flow of logic, so we can get() times whenever? This might be necessary to
     #  send trucks off at specific times
-    totalDistanceTravelled = 0
+    # TODO: can update above argument to include a provided "startTime", which can also call getFinalTime from Truck itself
+
+    totalDistanceTravelled = truck.getTotalDeliveryDistance()
     speed = 18  # miles per hour
     currentTime = datetime.combine(datetime.today(), time(8, 0, 0))
 
@@ -68,8 +70,14 @@ def deliverTruckPackages(truck):
         print("Current Time:", deliveryTime)
         print("Current Distance Travelled:", totalDistanceTravelled)
 
+        #  brings truck back to HUB, adds time & distance to do so, resets startingAddress
         if len(truck.getPackages()) == 0:
-            truck.setTotalDeliveryDistance(totalDistanceTravelled)
+            returnTrip = distanceBetween(minDeliveryAddress, "4001 South 700 East, Salt Lake City, UT 84107")
+            truck.setTotalDeliveryDistance(totalDistanceTravelled + returnTrip)
+            returnTripTime = timedelta(hours=(returnTrip / speed))
+            truck.setEndingTime(deliveryTime + returnTripTime)
+            truck.setStartingAddress("4001 South 700 East, Salt Lake City, UT 84107")
+
 
 # instance of the self-adjusting data structure, followed by a method call to load it with package data
 packageHashTable = hash_table_class.ChainingHashTable()
@@ -117,17 +125,41 @@ truck2 = truck_class.Truck(2)
 # packages 3, 18, 36, 38 must all be on Truck #2
 truck2.addPackage(packageHashTable.search(3))
 truck2.addPackage(packageHashTable.search(18))
+truck2.addPackage(packageHashTable.search(21))
+truck2.addPackage(packageHashTable.search(22))
+truck2.addPackage(packageHashTable.search(23))
+truck2.addPackage(packageHashTable.search(24))
+truck2.addPackage(packageHashTable.search(26))
+truck2.addPackage(packageHashTable.search(27))
+truck2.addPackage(packageHashTable.search(29))
+truck2.addPackage(packageHashTable.search(30))
+truck2.addPackage(packageHashTable.search(31))
+truck2.addPackage(packageHashTable.search(33))
+truck2.addPackage(packageHashTable.search(34))
+truck2.addPackage(packageHashTable.search(35))
 truck2.addPackage(packageHashTable.search(36))
 truck2.addPackage(packageHashTable.search(38))
-# print("Minimum distance for Packages in Truck #2:")
-# print(minDistanceFrom(truck2.getStartingAddress(), truck2.getPackages()))
 
-print("deliverTruckPackages() Test:")
+# undelivered packages with strict deadlines
+# 6 (10:30am), 25 (10:30am), 29-30-31 (10:30am), 34 (10:30am), 37 (10:30am), 40 (10:30am)
+
+# TODO: Will likely need to make "accumulated time" a part of the Truck_Class so that we can pass it to the next round of deliveries
+
+# packages delayed until 9:05am
+# 6, 25, 28, 32,
+
+# can only be loaded after 10:20am to "410 S State St"
+# 9
+
+print("deliverTruckPackages() Test Truck #1:")
 deliverTruckPackages(truck1)
+print("deliverTruckPackages() Test Truck #2:")
 deliverTruckPackages(truck2)
 
 print("Truck 1 packages AFTER delivery:")
 truck1.printPackageList()
+print("Truck 2 packages AFTER delivery:")
+truck2.printPackageList()
 
 print("Total Distance Travelled for Truck #1 test:")
 print(truck1.getTotalDeliveryDistance())

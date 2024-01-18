@@ -4,6 +4,8 @@ class Truck:
         self.truckNumber = truckNumber
         self.startingAddress = "4001 South 700 East, Salt Lake City, UT 84107"
         self.totalDeliveryDistance = 0
+        self.startingTime = None
+        self.endingTime = None
 
     # this method will either append a package to the packages list or print that the list is full
     def addPackage(self, package):
@@ -53,4 +55,16 @@ class Truck:
 
     def getTotalDeliveryDistance(self):
         return self.totalDeliveryDistance
+
+    def setStartingTime(self, startingTime):
+        self.startingTime = startingTime
+
+    def getStartingTime(self):
+        return self.startingTime
+
+    def setEndingTime(self, endingTime):
+        self.endingTime = endingTime
+
+    def getEndingTime(self):
+        return self.endingTime
 
