@@ -165,6 +165,26 @@ print(truck1.getTotalDeliveryDistance(), truck1.getEndingTime())
 print("Total Distance Travelled and ending time for Truck #2 test:")
 print(truck2.getTotalDeliveryDistance(), truck2.getEndingTime())
 
+truck3 = truck_class.Truck(3)
+truck3.addPackage(packageHashTable.search(6))
+truck3.addPackage(packageHashTable.search(9))
+truck3.addPackage(packageHashTable.search(25))
+truck3.addPackage(packageHashTable.search(28))
+truck3.addPackage(packageHashTable.search(32))
+truck3.addPackage(packageHashTable.search(37))
+truck3.addPackage(packageHashTable.search(39))
+truck3.addPackage(packageHashTable.search(40))
+
+print("deliverTruckPackages() Test Truck #3:")
+# sends truck3 off at the same time the driver for truck1 arrives back at HUB
+deliverTruckPackages(truck3, truck1.getEndingTime().time())
+
+print("Truck 3 packages AFTER delivery:")
+truck3.printPackageList()
+
+print("Total Distance Travelled and ending time for Truck #2 test:")
+print(truck3.getTotalDeliveryDistance(), truck3.getEndingTime())
+
 print("lookup function test:")
 print(methods.hashTableLookUp(packageHashTable, 38))
 print(methods.hashTableLookUp(packageHashTable, 7))
