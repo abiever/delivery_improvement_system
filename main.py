@@ -50,7 +50,7 @@ def deliverTruckPackages(truck, startTime):
 
     for package in truck.getPackages():
         # this appears to automatically update the hash table
-        package.setStatus("Out for delivery as of " + currentTime.strftime("%H:%M:%S"))
+        package.setStatus("Out for Delivery.")
         # truck.printPackageList() # This is just to help check time inputs
 
     while len(truck.getPackages()) > 0:
@@ -192,3 +192,5 @@ print("Package Data from Hashtable (after):")
 # Fetch data from Hash Table
 for i in range(len(packageHashTable.table)):
     print("Package: {}".format(packageHashTable.search(i + 1)))
+
+

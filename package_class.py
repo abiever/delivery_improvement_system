@@ -10,6 +10,8 @@ class Package:
         self.deadline = deadline
         self.weight = weight
         self.status = status
+        self.timeDelivered = None
+        # TODO: create deliveryTime so that UI can "pull" info at specific times
 
     def __str__(self):
         return "%s, %s, %s, %s, %s, %s, %s, %s" % (self.ID, self.address, self.city, self.state,
@@ -42,3 +44,8 @@ class Package:
     def setStatus(self, newStatus):
         self.status = newStatus
 
+    def setTimeDelivered(self, timeDelivered):
+        self.timeDelivered = timeDelivered
+
+    def getTimeDelivered(self):
+        return self.timeDelivered
