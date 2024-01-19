@@ -151,9 +151,9 @@ truck2.addPackage(packageHashTable.search(38))
 # 9
 
 print("deliverTruckPackages() Test Truck #1:")
-deliverTruckPackages(truck1)
+deliverTruckPackages(truck1, time(8, 0, 0))
 print("deliverTruckPackages() Test Truck #2:")
-deliverTruckPackages(truck2)
+deliverTruckPackages(truck2, time(8, 0, 0))
 
 print("Truck 1 packages AFTER delivery:")
 truck1.printPackageList()
