@@ -1,3 +1,5 @@
+# Aaron Tandem, Student ID 010169998
+
 import hash_table_class
 import truck_class
 import methods
@@ -42,10 +44,6 @@ def minDistanceFrom(fromAddress, truckPackages):
 
 #  startTime should be format time(x, x, x) or truck.getStartingTime?
 def deliverTruckPackages(truck, startTime):
-    # TODO: Potentially set this as truck.etc(), update the flow of logic, so we can get() times whenever? This might be necessary to
-    #  send trucks off at specific times
-    # TODO: can update above argument to include a provided "startTime", which can also call getFinalTime from Truck itself
-
     totalDistanceTravelled = truck.getTotalDeliveryDistance()
     speed = 18  # miles per hour
     currentTime = datetime.combine(datetime.today(), startTime)
@@ -56,12 +54,13 @@ def deliverTruckPackages(truck, startTime):
         # truck.printPackageList() # This is just to help check time inputs
 
     while len(truck.getPackages()) > 0:
-        minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())
+        minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(),
+                                                                                    truck.getPackages())
         totalDistanceTravelled += minDeliveryDistance
         truck.setStartingAddress(minDeliveryAddress)
         timeSpent = timedelta(hours=(minDeliveryDistance / speed))
         deliveryTime = currentTime + timeSpent
-        currentTime = deliveryTime #  MUST include to update functional scope variable with time necessary to continue from
+        currentTime = deliveryTime  # MUST include to update functional scope variable with time necessary to continue from
         # after a delivery
         truck.dropOffPackage(minDeliveryPkgID, packageHashTable, deliveryTime.strftime("%H:%M:%S"))
 
@@ -97,55 +96,45 @@ print("Package Data from Hashtable (before):")
 for i in range(len(packageHashTable.table)):
     print("Package: {}".format(packageHashTable.search(i + 1)))
 
+# Truck 1 will be the first truck to leave the HUB, prioritizing packages that have deadlines
 truck1 = truck_class.Truck(1)
 truck1.addPackage(packageHashTable.search(1))
-truck1.addPackage(packageHashTable.search(2))
-truck1.addPackage(packageHashTable.search(4))
-truck1.addPackage(packageHashTable.search(5))
-truck1.addPackage(packageHashTable.search(7))
-truck1.addPackage(packageHashTable.search(8))
-truck1.addPackage(packageHashTable.search(10))
-truck1.addPackage(packageHashTable.search(11))
-truck1.addPackage(packageHashTable.search(12))
 # packages 13, 14, 15, 16, 19, 20 must all be delivered together
 truck1.addPackage(packageHashTable.search(13))
 truck1.addPackage(packageHashTable.search(14))
 truck1.addPackage(packageHashTable.search(15))
 truck1.addPackage(packageHashTable.search(16))
-truck1.addPackage(packageHashTable.search(17))
-truck1.addPackage(packageHashTable.search(19))
 truck1.addPackage(packageHashTable.search(20))
+# other packages
+truck1.addPackage(packageHashTable.search(29))
+truck1.addPackage(packageHashTable.search(30))
+truck1.addPackage(packageHashTable.search(31))
+truck1.addPackage(packageHashTable.search(34))
+truck1.addPackage(packageHashTable.search(37))
+truck1.addPackage(packageHashTable.search(40))
+# EOD packages
+truck1.addPackage(packageHashTable.search(23))
+truck1.addPackage(packageHashTable.search(24))
+truck1.addPackage(packageHashTable.search(26))
+truck1.addPackage(packageHashTable.search(27))
 
-# print("Truck 1 packages BEFORE delivery:")
-# truck1.printPackageList()
-#
-# print("Minimum distance for Packages in Truck #1:")
-# print(minDistanceFrom(truck1.getStartingAddress(), truck1.getPackages()))
-
+#  truck 2 will prioritize LATE packages that still have an early deadline
+#  WILL LEAVE @ 9:10am!
 truck2 = truck_class.Truck(2)
 # packages 3, 18, 36, 38 must all be on Truck #2
 truck2.addPackage(packageHashTable.search(3))
 truck2.addPackage(packageHashTable.search(18))
-truck2.addPackage(packageHashTable.search(21))
-truck2.addPackage(packageHashTable.search(22))
-truck2.addPackage(packageHashTable.search(23))
-truck2.addPackage(packageHashTable.search(24))
-truck2.addPackage(packageHashTable.search(26))
-truck2.addPackage(packageHashTable.search(27))
-truck2.addPackage(packageHashTable.search(29))
-truck2.addPackage(packageHashTable.search(30))
-truck2.addPackage(packageHashTable.search(31))
-truck2.addPackage(packageHashTable.search(33))
-truck2.addPackage(packageHashTable.search(34))
-truck2.addPackage(packageHashTable.search(35))
 truck2.addPackage(packageHashTable.search(36))
 truck2.addPackage(packageHashTable.search(38))
+# Truck 2 PRIORITY packages:
+truck2.addPackage(packageHashTable.search(6))
+truck2.addPackage(packageHashTable.search(25))
+# EOD packages
+truck2.addPackage(packageHashTable.search(33))
+truck2.addPackage(packageHashTable.search(35))
+truck2.addPackage(packageHashTable.search(21))
+truck2.addPackage(packageHashTable.search(22))
 
-# undelivered packages with strict deadlines
-# 6 (10:30am), 25 (10:30am), 29-30-31 (10:30am), 34 (10:30am), 37 (10:30am), 40 (10:30am)
-
-# packages delayed until 9:05am
-# 6, 25, 28, 32,
 
 # can only be loaded after 10:20am to "410 S State St"
 # 9
@@ -153,7 +142,7 @@ truck2.addPackage(packageHashTable.search(38))
 print("deliverTruckPackages() Test Truck #1:")
 deliverTruckPackages(truck1, time(8, 0, 0))
 print("deliverTruckPackages() Test Truck #2:")
-deliverTruckPackages(truck2, time(8, 0, 0))
+deliverTruckPackages(truck2, time(9, 10, 0))
 
 print("Truck 1 packages AFTER delivery:")
 truck1.printPackageList()
@@ -165,29 +154,44 @@ print(truck1.getTotalDeliveryDistance(), truck1.getEndingTime())
 print("Total Distance Travelled and ending time for Truck #2 test:")
 print(truck2.getTotalDeliveryDistance(), truck2.getEndingTime())
 
+# Truck 3 will deliver the remaining packages that have no explicit deadline priority
 truck3 = truck_class.Truck(3)
-truck3.addPackage(packageHashTable.search(6))
+#  PACKAGES FOR FINAL SHIPMENT
 truck3.addPackage(packageHashTable.search(9))
-truck3.addPackage(packageHashTable.search(25))
+truck3.getPackages()[0].setAddress("410 S State St")
 truck3.addPackage(packageHashTable.search(28))
 truck3.addPackage(packageHashTable.search(32))
-truck3.addPackage(packageHashTable.search(37))
+truck3.addPackage(packageHashTable.search(2))
+truck3.addPackage(packageHashTable.search(4))
+truck3.addPackage(packageHashTable.search(5))
 truck3.addPackage(packageHashTable.search(39))
-truck3.addPackage(packageHashTable.search(40))
+truck2.addPackage(packageHashTable.search(21))
+truck2.addPackage(packageHashTable.search(22))
+truck3.addPackage(packageHashTable.search(7))
+truck3.addPackage(packageHashTable.search(8))
+truck3.addPackage(packageHashTable.search(10))
+truck3.addPackage(packageHashTable.search(11))
+truck3.addPackage(packageHashTable.search(12))
+truck3.addPackage(packageHashTable.search(17))
+truck3.addPackage(packageHashTable.search(19))
 
 print("deliverTruckPackages() Test Truck #3:")
-# sends truck3 off at the same time the driver for truck1 arrives back at HUB
-deliverTruckPackages(truck3, truck1.getEndingTime().time())
+# sends truck3 off at the same time the driver for truck2 arrives back at HUB
+deliverTruckPackages(truck3, truck2.getEndingTime().time())
 
 print("Truck 3 packages AFTER delivery:")
 truck3.printPackageList()
 
-print("Total Distance Travelled and ending time for Truck #2 test:")
+print("Total Distance Travelled and ending time for Truck #3 test:")
 print(truck3.getTotalDeliveryDistance(), truck3.getEndingTime())
 
-print("lookup function test:")
-print(methods.hashTableLookUp(packageHashTable, 38))
-print(methods.hashTableLookUp(packageHashTable, 7))
+print("Total Distance for ALL trucks:")
+print(
+    str(truck1.getTotalDeliveryDistance() + truck2.getTotalDeliveryDistance() + truck3.getTotalDeliveryDistance()) + " miles.")
+
+# print("lookup function test:")
+# print(methods.hashTableLookUp(packageHashTable, 38))
+# print(methods.hashTableLookUp(packageHashTable, 7))
 
 # display the hash table data to the console
 print("Package Data from Hashtable (after):")
