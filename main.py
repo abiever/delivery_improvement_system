@@ -42,7 +42,7 @@ def minDistanceFrom(fromAddress, truckPackages):
     return minDistance, minDistanceAddress, minDistancePkgID
 
 
-#  startTime should be format time(x, x, x) or truck.getStartingTime?
+#  startTime should be of format time(x, x, x), including when calling getStartingTime() | getEndingTime()
 def deliverTruckPackages(truck, startTime):
     totalDistanceTravelled = truck.getTotalDeliveryDistance()
     speed = 18  # miles per hour
@@ -54,8 +54,7 @@ def deliverTruckPackages(truck, startTime):
         # truck.printPackageList() # This is just to help check time inputs
 
     while len(truck.getPackages()) > 0:
-        minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(),
-                                                                                    truck.getPackages())
+        minDeliveryDistance, minDeliveryAddress, minDeliveryPkgID = minDistanceFrom(truck.getStartingAddress(), truck.getPackages())
         totalDistanceTravelled += minDeliveryDistance
         truck.setStartingAddress(minDeliveryAddress)
         timeSpent = timedelta(hours=(minDeliveryDistance / speed))
@@ -64,11 +63,12 @@ def deliverTruckPackages(truck, startTime):
         # after a delivery
         truck.dropOffPackage(minDeliveryPkgID, packageHashTable, deliveryTime.strftime("%H:%M:%S"))
 
-        print("Truck Package List Length:", len(truck.getPackages()))
-        print("Deliverable PkgID:", minDeliveryPkgID)
-        print("Minimum Address:", minDeliveryAddress)
-        print("Current Time:", deliveryTime)
-        print("Current Distance Travelled:", totalDistanceTravelled)
+        # These are useful for double-checking flow of the program
+        # print("Truck Package List Length:", len(truck.getPackages()))
+        # print("Deliverable PkgID:", minDeliveryPkgID)
+        # print("Minimum Address:", minDeliveryAddress)
+        # print("Current Time:", deliveryTime)
+        # print("Current Distance Travelled:", totalDistanceTravelled)
 
         #  brings truck back to HUB, adds time & distance to do so, resets startingAddress
         if len(truck.getPackages()) == 0:
@@ -112,11 +112,7 @@ truck1.addPackage(packageHashTable.search(31))
 truck1.addPackage(packageHashTable.search(34))
 truck1.addPackage(packageHashTable.search(37))
 truck1.addPackage(packageHashTable.search(40))
-# EOD packages
-truck1.addPackage(packageHashTable.search(23))
-truck1.addPackage(packageHashTable.search(24))
-truck1.addPackage(packageHashTable.search(26))
-truck1.addPackage(packageHashTable.search(27))
+
 
 #  truck 2 will prioritize LATE packages that still have an early deadline
 #  WILL LEAVE @ 9:10am!
@@ -129,25 +125,23 @@ truck2.addPackage(packageHashTable.search(38))
 # Truck 2 PRIORITY packages:
 truck2.addPackage(packageHashTable.search(6))
 truck2.addPackage(packageHashTable.search(25))
-# EOD packages
 truck2.addPackage(packageHashTable.search(33))
-truck2.addPackage(packageHashTable.search(35))
-truck2.addPackage(packageHashTable.search(21))
-truck2.addPackage(packageHashTable.search(22))
+truck2.addPackage(packageHashTable.search(12))
+truck2.addPackage(packageHashTable.search(23))
+truck2.addPackage(packageHashTable.search(24))
+truck2.addPackage(packageHashTable.search(26))
+truck2.addPackage(packageHashTable.search(27))
 
-
-# can only be loaded after 10:20am to "410 S State St"
-# 9
 
 print("deliverTruckPackages() Test Truck #1:")
 deliverTruckPackages(truck1, time(8, 0, 0))
 print("deliverTruckPackages() Test Truck #2:")
 deliverTruckPackages(truck2, time(9, 10, 0))
 
-print("Truck 1 packages AFTER delivery:")
-truck1.printPackageList()
-print("Truck 2 packages AFTER delivery:")
-truck2.printPackageList()
+# print("Truck 1 packages AFTER delivery:")
+# truck1.printPackageList()
+# print("Truck 2 packages AFTER delivery:")
+# truck2.printPackageList()
 
 print("Total Distance Travelled and ending time for Truck #1 test:")
 print(truck1.getTotalDeliveryDistance(), truck1.getEndingTime())
@@ -165,13 +159,13 @@ truck3.addPackage(packageHashTable.search(2))
 truck3.addPackage(packageHashTable.search(4))
 truck3.addPackage(packageHashTable.search(5))
 truck3.addPackage(packageHashTable.search(39))
-truck2.addPackage(packageHashTable.search(21))
-truck2.addPackage(packageHashTable.search(22))
+truck3.addPackage(packageHashTable.search(21))
+truck3.addPackage(packageHashTable.search(22))
 truck3.addPackage(packageHashTable.search(7))
 truck3.addPackage(packageHashTable.search(8))
 truck3.addPackage(packageHashTable.search(10))
 truck3.addPackage(packageHashTable.search(11))
-truck3.addPackage(packageHashTable.search(12))
+truck3.addPackage(packageHashTable.search(35))
 truck3.addPackage(packageHashTable.search(17))
 truck3.addPackage(packageHashTable.search(19))
 
@@ -179,8 +173,8 @@ print("deliverTruckPackages() Test Truck #3:")
 # sends truck3 off at the same time the driver for truck2 arrives back at HUB
 deliverTruckPackages(truck3, truck2.getEndingTime().time())
 
-print("Truck 3 packages AFTER delivery:")
-truck3.printPackageList()
+# print("Truck 3 packages AFTER delivery:")
+# truck3.printPackageList()
 
 print("Total Distance Travelled and ending time for Truck #3 test:")
 print(truck3.getTotalDeliveryDistance(), truck3.getEndingTime())
