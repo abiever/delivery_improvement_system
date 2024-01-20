@@ -219,13 +219,13 @@ if __name__ == "__main__":
             # Fetch data from Hash Table and then print it
             for i in range(len(packageHashTable.table)):
                 print("{}".format(packageHashTable.search(i + 1)))
-            print("Distance Traveled for Truck #1: " + str(round(truck1.getTotalDeliveryDistance())) + " miles.")
-            print("Distance Traveled for Truck #2: " + str(round(truck2.getTotalDeliveryDistance())) + " miles.")
-            print("Distance Traveled for Truck #3: " + str(round(truck3.getTotalDeliveryDistance())) + " miles.")
+            print("Distance Traveled for Truck #1: " + str(round(truck1.getTotalDeliveryDistance(), 1)) + " miles.")
+            print("Distance Traveled for Truck #2: " + str(round(truck2.getTotalDeliveryDistance(), 1)) + " miles.")
+            print("Distance Traveled for Truck #3: " + str(round(truck3.getTotalDeliveryDistance(), 1)) + " miles.")
             print("Cumulative Distance for All Trucks: " +
-                  str(round(truck1.getTotalDeliveryDistance()) +
-                      round(truck2.getTotalDeliveryDistance()) +
-                      round(truck3.getTotalDeliveryDistance())
+                  str(round(truck1.getTotalDeliveryDistance(), 1) +
+                      round(truck2.getTotalDeliveryDistance(), 1) +
+                      round(truck3.getTotalDeliveryDistance(), 1)
                       ) + " miles."
                   )
         elif choice == "2":
@@ -243,16 +243,34 @@ if __name__ == "__main__":
                 foundPkgTime = foundPkgDateTime.time()
 
                 if inputTime >= foundPkgTime:
-                    print(f"Package {inputID} was " + foundPkg.getStatus() + " at " + foundPkg.getTimeDelivered())
+                    print(f"Package {inputID} was " + foundPkg.getStatus() + " at " + foundPkg.getTimeDelivered() + " to " +
+                          foundPkg.getAddress() + ".")
                 elif inputTime < foundPkgTime and inputTime >= time(8, 0, 0):
-                    print(f"Package {inputID} is en route as of {inputTime}")
+                    print(f"Package {inputID} is en route as of {inputTime}" + ".")
                 elif inputTime < time(8, 0, 0):
                     print(f"Package {inputID} is at HUB preparing for delivery. Deliveries will begin promptly at 8 am.")
             else:
                 print(f"Cannot find package with ID '{inputID}'. Please enter a valid ID and try again.")
         elif choice == "3":
-            print("Exiting the program. Goodbye!")
-            break
+            inputTimeStr = input("Enter time (hh, mm, ss):")
+
+            # Split the input string into individual components
+            hour, minute, second = map(int, inputTimeStr.split(','))
+            inputTime = time(hour, minute, second)
+
+            print(f"Delivery Status for All Packages as of {inputTime}:")
+            for i in range(len(packageHashTable.table)):
+                foundPkg = packageHashTable.search(i+1)
+                foundPkgDateTime = datetime.strptime(foundPkg.getTimeDelivered(), "%H:%M:%S")
+                foundPkgTime = foundPkgDateTime.time()
+                if inputTime >= foundPkgTime:
+                    print(f"Package {i+1} was " + foundPkg.getStatus() + " at " + foundPkg.getTimeDelivered() + " to " +
+                          foundPkg.getAddress() + ".")
+                elif inputTime < foundPkgTime and inputTime >= time(8, 0, 0):
+                    print(f"Package {i+1} is en route as of {inputTime}" + ".")
+                elif inputTime < time(8, 0, 0):
+                    print(f"Package {i+1} is at HUB preparing for delivery. Deliveries will begin promptly at 8 am.")
+
         elif choice == "4":
             print("Thank you for using WGUPS. Goodbye!")
             break
