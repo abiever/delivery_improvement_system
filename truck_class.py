@@ -25,7 +25,7 @@ class Truck:
         for package in self.packages:
             if package.getPackageID() == packageID:
                 package.setTimeDelivered(deliveryTime)
-                package.setStatus("Delivered at " + str(deliveryTime) + " by Truck #" + str(self.getTruckNumber()))
+                package.setStatus("Delivered by Truck #" + str(self.getTruckNumber()))
                 # insert/update this specific hashtable entry
                 hashTable.insert(package.getPackageID(), package)
                 self.packages.remove(package)
