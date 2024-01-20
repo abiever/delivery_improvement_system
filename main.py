@@ -231,18 +231,23 @@ if __name__ == "__main__":
         elif choice == "2":
             inputID = int(input("Enter packageID (1-40): "))
             inputTimeStr = input("Enter time (hh, mm, ss):")
+
             # Split the input string into individual components
             hour, minute, second = map(int, inputTimeStr.split(','))
             inputTime = time(hour, minute, second)
+
             foundPkg = packageHashTable.search(inputID)
-            foundPkgDateTime = datetime.strptime(foundPkg.getTimeDelivered(), "%H:%M:%S")
-            foundPkgTime = foundPkgDateTime.time()
-            if inputTime >= foundPkgTime:
-                print(f"Package {inputID} was " + foundPkg.getStatus() + " at " + foundPkg.getTimeDelivered())
-            elif inputTime < foundPkgTime and inputTime >= time(8, 0, 0):
-                print(f"Package {inputID} is en route as of {inputTime}")
-            elif inputTime < time(8, 0, 0):
-                print(f"Package {inputID} is at HUB preparing for delivery. Deliveries will begin promptly at 8am.")
+
+            if foundPkg is not None:
+                foundPkgDateTime = datetime.strptime(foundPkg.getTimeDelivered(), "%H:%M:%S")
+                foundPkgTime = foundPkgDateTime.time()
+
+                if inputTime >= foundPkgTime:
+                    print(f"Package {inputID} was " + foundPkg.getStatus() + " at " + foundPkg.getTimeDelivered())
+                elif inputTime < foundPkgTime and inputTime >= time(8, 0, 0):
+                    print(f"Package {inputID} is en route as of {inputTime}")
+                elif inputTime < time(8, 0, 0):
+                    print(f"Package {inputID} is at HUB preparing for delivery. Deliveries will begin promptly at 8 am.")
             else:
                 print(f"Cannot find package with ID '{inputID}'. Please enter a valid ID and try again.")
         elif choice == "3":
