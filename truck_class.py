@@ -1,3 +1,5 @@
+# This is the Package Class used to store a list of Package Objects added to it from the hash table. It contains various methods for
+# interacting with its members and manipulating Package Objects during the delivery process from 'main'.
 class Truck:
     def __init__(self, truckNumber):
         self.packages = []
@@ -7,19 +9,21 @@ class Truck:
         self.startingTime = None
         self.endingTime = None
 
-    # this method will either append a package to the packages list or print that the list is full
+    # This method will either append a package to the packages list or print that the list is full
     def addPackage(self, package):
         if len(self.packages) < 16:
             self.packages.append(package)
         else:
             print("Truck is full for Truck #" + str(self.truckNumber) + ". No more packages can be added.")
 
+    # This method simply removes a package from the packages list
     def removePackage(self, packageID):
         for package in self.packages:
             if package.getPackageID() == packageID:
                 self.packages.remove(package)
 
-    # this method is similar to removePackage() but it also updates the hash table to say "delivered" along with the delivery time
+    # This method is similar to removePackage() but it also updates the hash table to say "delivered" along with the delivery time. It is
+    # called as a part of the deliverTruckPackages() method in 'main' and is a vital component of the Nearest Neighbor algorithm's logic.
     def dropOffPackage(self, packageID, hashTable, deliveryTime):
 
         for package in self.packages:
@@ -33,7 +37,7 @@ class Truck:
     def getPackages(self):
         return self.packages
 
-    # this method prints to the console all packages contained in the truck
+    # This method prints to the console all packages contained in the truck
     def printPackageList(self):
         print("List of Packages for Truck #" + str(self.truckNumber))
         if len(self.packages) > 0:

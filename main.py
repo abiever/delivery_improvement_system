@@ -181,15 +181,19 @@ deliverTruckPackages(truck3, truck2.getEndingTime().time())
 # print(methods.hashTableLookUp(packageHashTable, 38))
 # print(methods.hashTableLookUp(packageHashTable, 7))
 
-
+# This is the User Interface
+# This script checks to make sure it is being run as the main program, then calls the displayMenu() method to show the user
+# the options available to view certain package related information.
 if __name__ == "__main__":
     while True:
         methods.displayMenu()
 
         choice = input("Enter your choice (1-4): ")
 
+        # Displays the hash table data to the console by calling the hash table's search() functionality in a loop, then prints total
+        # distances traveled for each truck, followed by the cumulative total distance of all three trucks combined.
         if choice == "1":
-            # display the hash table data to the console
+
             print("PackageID, Address, City, State, Zip, Delivery Deadline, Kilograms, Status, DeliveryTime")
             # Fetch data from Hash Table and then print it
             for i in range(len(packageHashTable.table)):
@@ -203,11 +207,14 @@ if __name__ == "__main__":
                       round(truck3.getTotalDeliveryDistance(), 1)
                       ) + " miles."
                   )
+
+        # Asks the user for a PackageID first, followed by a time, then returns the delivery status of a package that matches the provided
+        # PackageID (if it exists), as it relates to the time provided.
         elif choice == "2":
             inputID = int(input("Enter packageID (1-40): "))
             inputTimeStr = input("Enter time (hh, mm, ss):")
 
-            # Split the input string into individual components
+            # Splits the input string into individual components so that the input time matches the package's time format
             hour, minute, second = map(int, inputTimeStr.split(','))
             inputTime = time(hour, minute, second)
 
@@ -226,6 +233,8 @@ if __name__ == "__main__":
                     print(f"Package {inputID} is at HUB preparing for delivery. Deliveries will begin promptly at 8 am.")
             else:
                 print(f"Cannot find package with ID '{inputID}'. Please enter a valid ID and try again.")
+
+        # This will display the delivery status of ALL packages in the hash table as it relates to the user provided time
         elif choice == "3":
             inputTimeStr = input("Enter time (hh, mm, ss):")
 
@@ -246,8 +255,11 @@ if __name__ == "__main__":
                 elif inputTime < time(8, 0, 0):
                     print(f"Package {i + 1} is at HUB preparing for delivery. Deliveries will begin promptly at 8 am.")
 
+        # Ends the program if chosen
         elif choice == "4":
             print("Thank you for using WGUPS. Goodbye!")
             break
+
+        # Displays an error message if an invalid option is chosen
         else:
             print("Invalid choice. Please enter a valid option.")
