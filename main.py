@@ -177,9 +177,9 @@ truck3.addPackage(packageHashTable.search(19))
 # Method call of deliverTruckPackages() that sends Truck 3 off at the same time the driver for Truck 2 arrives back at HUB
 deliverTruckPackages(truck3, truck2.getEndingTime().time())
 
-# print("lookup function test:")
-# print(methods.hashTableLookUp(packageHashTable, 38))
-# print(methods.hashTableLookUp(packageHashTable, 7))
+print("Look-up Function Test:")
+print(methods.hashTableLookUp(packageHashTable, 38))
+print(methods.hashTableLookUp(packageHashTable, 7))
 
 # This is the User Interface
 # This script checks to make sure it is being run as the main program, then calls the displayMenu() method to show the user
